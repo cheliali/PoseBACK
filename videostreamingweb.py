@@ -10,6 +10,7 @@ from generate import generate, iniciar, terminar
 app = Flask(__name__)
 CORS(app)
 app.config['CORS_HEADERS']='Content-Type'
+app.config['TESTING'] = True
 
 
 @app.route("/iniciar", methods=['GET'])
@@ -30,5 +31,5 @@ def terminarf():
      return jsonify("ok")
 
 if __name__ == "__main__":
-     app.run(debug=False)
+     app.run(debug=True)
 

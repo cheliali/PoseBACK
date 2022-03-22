@@ -1,8 +1,7 @@
-from asyncio.windows_events import NULL
 import cv2
 
-cap = NULL
-face_detector = NULL
+cap = None
+face_detector = None
 
 def iniciar():
     print("innicia")
