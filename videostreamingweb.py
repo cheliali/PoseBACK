@@ -5,7 +5,8 @@ from flask import Response
 from flask import jsonify
 from flask_cors import CORS, cross_origin
 
-from generate import generate, iniciar, terminar
+#from generate import generate, iniciar, terminar
+from pose import generate, iniciar, terminar
 
 app = Flask(__name__)
 CORS(app)

@@ -4,7 +4,6 @@ cap = None
 face_detector = None
 
 def iniciar():
-    print("innicia")
     global cap 
     global face_detector
     cap= cv2.VideoCapture(0, cv2.CAP_DSHOW)
@@ -29,5 +28,4 @@ def generate():
     
 def terminar():
     global cap
-    print("terminar")
     cap.release()
