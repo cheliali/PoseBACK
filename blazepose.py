@@ -1,16 +1,18 @@
 import cv2
+import matplotlib
+matplotlib.use('Agg')
 import mediapipe as mp
+
+cap = None
 
 def iniciar():
     global cap
     cap = cv2.VideoCapture(0)
-
+    
 def generate():
     global cap
     mp_drawing=mp.solutions.drawing_utils
     mp_pose=mp.solutions.pose
-
-    cap=cv2.VideoCapture(1)
 
     with mp_pose.Pose(
         static_image_mode=False) as pose:
