@@ -6,7 +6,7 @@ from flask import jsonify
 from flask_cors import CORS, cross_origin
 from pymongo import MongoClient
 
-from blazepose import generate, iniciar, terminar
+from blazepose import iniciar, videostart, terminar
 
 app = Flask(__name__)
 CORS(app)
@@ -24,7 +24,7 @@ def iniciarf():
 
 @app.route("/video_feed")
 def video_feed():
-     return Response(generate(),
+     return Response(videostart(),
           mimetype = "multipart/x-mixed-replace; boundary=frame")
 
 @app.route("/terminar", methods=['GET'])
@@ -61,6 +61,17 @@ def login():
           return jsonify("ok")
      else:
           return jsonify("error")
+
+@app.route("/poomsae1", methods=['GET'])
+@cross_origin()
+def poomsae1():
+     return jsonify("ok")
+
+@app.route("/pos1", methods=['GET'])
+@cross_origin()
+def pos1():
+     return jsonify("ok")
+
 if __name__ == "__main__":
      app.run(debug=True)
 
