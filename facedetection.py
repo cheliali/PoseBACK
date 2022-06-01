@@ -6,7 +6,7 @@ face_detector = None
 def iniciar():
     global cap 
     global face_detector
-    cap= cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    cap= cv2.VideoCapture(0)
     face_detector = cv2.CascadeClassifier(cv2.data.haarcascades + 
         "haarcascade_frontalface_default.xml")
 

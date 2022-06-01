@@ -5,11 +5,13 @@ import argparse
 #inWidth = args.width
 #inHeight = args.height
 
+cap = None
+
 def iniciar():
     global cap
     global net
     net = cv.dnn.readNetFromTensorflow("graph_opt.pb")
-    cap = cv.VideoCapture(0, cv.CAP_DSHOW)
+    cap = cv.VideoCapture(0)
 
 def generate():
     global cap
