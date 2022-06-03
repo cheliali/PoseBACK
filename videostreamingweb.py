@@ -7,6 +7,7 @@ from flask_cors import CORS, cross_origin
 from pymongo import MongoClient
 
 from blazepose import iniciar, videostart, terminar
+from dbcontroller import getposes
 
 app = Flask(__name__)
 CORS(app)
@@ -62,15 +63,11 @@ def login():
      else:
           return jsonify("error")
 
-@app.route("/poomsae1", methods=['GET'])
+@app.route("/getpoomsaeposes", methods=['GET'])
 @cross_origin()
 def poomsae1():
-     return jsonify("ok")
-
-@app.route("/pos1", methods=['GET'])
-@cross_origin()
-def pos1():
-     return jsonify("ok")
+     poses=getposes()
+     return poses
 
 if __name__ == "__main__":
      app.run(debug=True)
