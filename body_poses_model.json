@@ -5,17 +5,21 @@
       "LEFT_WRIST",
       "LEFT_HIP",
       "LEFT_KNEE",
+      "LEFT_ANKLE",
       "RIGHT_SHOULDER",
       "RIGHT_ELBOW",
       "RIGHT_WRIST",
       "RIGHT_HIP",
-      "RIGHT_KNEE"
+      "RIGHT_KNEE",
+      "RIGHT_ANKLE"
     ],
     "angulos": {
       "leftcodo": ["left_shoulder", "left_elbow", "left_wrist"],
       "leftax": ["left_hip", "left_shoulder", "left_elbow"],
       "rightcodo": ["right_shoulder", "right_elbow", "right_wrist"],
-      "rightax": ["right_hip", "right_shoulder", "right_elbow"]
+      "rightax": ["right_hip", "right_shoulder", "right_elbow"],
+      "distanceknees":["right_knee","left_knee"],
+      "distancefeet":["right_ankle","left_ankle"]
     },
     "poses": {
       "Oen Arae Makki": {
@@ -34,6 +38,18 @@
         "leftcodo": 75,
         "leftax": 175
       },
+      "Oen Ap Kubi": {
+        "distancefeet": 25,
+        "distanceknees": 25
+      },
+      "Oen Ap Seogi": {
+        "distancefeet": 25,
+        "distanceknees": 25
+      },
+      "Oen Ap Chagi": {
+        "distancefeet": 25,
+        "distanceknees": 25
+      },
       "Oreun Olgul Makki": {
         "rightcodo": 70,
         "rightax": 150
@@ -49,6 +65,18 @@
       "Oreun Momtong Jireugi": {
         "rightcodo": 75,
         "rightax": 175
+      },
+      "Oreun Ap Kubi": {
+        "distancefeet": 25,
+        "distanceknees": 25
+      },
+      "Oreun Ap Seogi": {
+        "distancefeet": 25,
+        "distanceknees": 25
+      },
+      "Oreun Ap Chagi": {
+        "distancefeet": 25,
+        "distanceknees": 25
       }
     },
     "calificacion":{

@@ -9,7 +9,7 @@ import pyrebase
 import os
 import cv2
 
-from blazepose import iniciar, videostart, terminar
+from blazepose import evaluate, iniciar, videostart, terminar
 from dbcontroller import getposes
 
 app = Flask(__name__)
@@ -43,50 +43,6 @@ firebase = pyrebase.initialize_app(config)
 storage = firebase.storage()
 #endregion
 
-''' global userid
-global posename
-global cont
-global calificacionref '''
-
-@app.route("/iniciar", methods=['GET'])
-@cross_origin()
-def iniciarf():
-    global userid
-    global posename
-    global cont
-    global calificacionref
-    arguments=request.args
-    userid=arguments.get('userid')
-    posename=arguments.get('pose')
-    calificacionref=0
-    iniciar(userid,posename,calificacionref)
-    return jsonify("ok")
-
-@app.route("/video_feed")
-def video_feed():
-    global cap
-    if os.environ.get('WERKZEUG_RUN_MAIN') or Flask.debug is False:
-        cap = cv2.VideoCapture(0)
-    return Response(videostart(cap),
-    mimetype = "multipart/x-mixed-replace; boundary=frame")
-
-@app.route("/terminar", methods=['GET'])
-@cross_origin()
-def terminarf():
-    terminar()
-    return jsonify("ok")
-
-@app.route("/register", methods=['POST'])
-@cross_origin()
-def register():
-    users = db.users
-    request_data = request.get_json()
-
-    username = request_data['username']
-    password = request_data['password']
-
-    users.insert_one({'username': username, 'password': password})
-    return jsonify("ok")
 
 @app.route("/login", methods=['POST'])
 @cross_origin()
@@ -104,11 +60,54 @@ def login():
     else:
         return jsonify("error")
 
+@app.route("/register", methods=['POST'])
+@cross_origin()
+def register():
+    users = db.users
+    request_data = request.get_json()
+
+    username = request_data['username']
+    password = request_data['password']
+
+    users.insert_one({'username': username, 'password': password})
+    return jsonify("ok")
+
 @app.route("/getpoomsaeposes", methods=['GET'])
 @cross_origin()
 def poomsae1():
     poses=getposes()
     return poses
+
+@app.route("/iniciar", methods=['GET'])
+@cross_origin()
+def iniciarf():
+    global userid
+    global posename
+    arguments=request.args
+    userid=arguments.get('userid')
+    posename=arguments.get('pose')
+    iniciar(userid,posename)
+    return jsonify("ok")
+
+@app.route("/video_feed")
+def video_feed():
+    global cap
+    if os.environ.get('WERKZEUG_RUN_MAIN') or Flask.debug is False:
+        cap = cv2.VideoCapture(0)
+    return Response(videostart(cap),
+    mimetype = "multipart/x-mixed-replace; boundary=frame")
+
+@app.route("/terminar", methods=['GET'])
+@cross_origin()
+def terminarf():
+    terminar()
+    return jsonify("ok")
+
+@app.route("/evaluate", methods=['GET'])
+@cross_origin()
+def evaluation():
+    finalGrade = evaluate()
+    return jsonify(finalGrade)
 
 if __name__ == "__main__":
     app.run(debug=False)
