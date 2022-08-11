@@ -1,9 +1,5 @@
 import pyrebase
-import os
 from pymongo import MongoClient
-from flask import request
-import datetime
-from bson.objectid import ObjectId
 
 config = {
     "apiKey": "AIzaSyBAM7ePYf0GIulRbdZsLio1SdS6t6UGI4A",
