@@ -61,13 +61,9 @@ def evaluatePose(frame, posename, calificacionref):
             else:
                 powerval=int(model["poses"][posename][angleName] - currentAngles[angleName])**2
                 finalval=math.sqrt(powerval)
-            
-            print("finalVal: ", finalval)
 
             for calificacion in model["calificacion"].keys():
-                print("entra")
                 if (int(finalval) in range(model["calificacion"][calificacion][0],model["calificacion"][calificacion][1])):
-                    print("entra 2")
                     calificacionesIndividuales.append({"name":angleName, "calificacion":calificacion})
                     sumatoria=sumatoria+int(calificacion)
                 
@@ -94,7 +90,7 @@ def getCurrentAngles(frame):
                 landMarkValue = mp_pose.PoseLandmark[landMark].value
                 landmarksCoords[landMark.lower()]=[landmarks[landMarkValue].x,landmarks[landMarkValue].y]
 
-            #Obtener angulos
+            #Obtener angulos y distancias
             angulos = model["angulos"]
             currentAngles = {}
             currentDistances={}
@@ -108,9 +104,3 @@ def getCurrentAngles(frame):
         except:
             pass
 
-        # if results.pose_landmarks is not None:
-        #     mp_drawing.draw_landmarks(
-        #         frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS, 
-        #         mp_drawing.DrawingSpec(color=(128,0,250), thickness=2, circle_radius=3),
-        #         mp_drawing.DrawingSpec(color=(255,255,255), thickness=2)
-        #         )
