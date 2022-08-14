@@ -1,27 +1,26 @@
-from pickle import TRUE
 import cv2
-import os
-from flask import Flask
 from evaluate import evaluateVideo
-from motores import homing, move, apagar
+from motores import homing
 
 name="/home/pi/Desktop/out.mp4"
 
-global focussing
-focussing=True
+global show, focussing
+show = True
+focussing = True
 
 def iniciar(id,pose):
-    global userid, posename
+    global userid, posename, focussing, show
     userid = id
     posename = pose
     homing('x',128)
+    focussing=False
     return
     
 def videostart(cap):
-    global show
-    show=True
+    global show, focussing
     cap.set(cv2.CAP_PROP_FPS,30)
-    outmp4 = cv2.VideoWriter(name,cv2.VideoWriter_fourcc(*'mp4v'), 30, (640,480))
+    fourcc=cv2.VideoWriter_fourcc(*'mp4v')
+    outmp4 = cv2.VideoWriter(name,fourcc, 30, (640,480))
     while (show):
         ret, frame = cap.read()
         if ret:
@@ -35,6 +34,7 @@ def videostart(cap):
                 bytearray(encodedImage) + b'\r\n')
         else:
             break
+
     cap.release()
     outmp4.release()
     cv2.destroyAllWindows()
@@ -46,7 +46,10 @@ def terminar():
     return
 
 def evaluate():
-    global posename
-    finalGrade = evaluateVideo(posename)
-    print("final: ", finalGrade)
-    return finalGrade
+    try:
+        global posename, show
+        finalGrade = evaluateVideo(posename)
+        show = True
+        return finalGrade
+    except print('====== HUBO UN PROBLEMA ======'):
+        pass
