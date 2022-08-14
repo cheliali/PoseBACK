@@ -86,8 +86,8 @@ def iniciarf():
     arguments=request.args
     userid=arguments.get('userid')
     posename=arguments.get('pose')
-    iniciar(userid,posename)
-    return jsonify("ok")
+    resp = iniciar(userid,posename)
+    return jsonify(resp)
 
 @app.route("/video_feed")
 def video_feed():

@@ -1,10 +1,10 @@
 import cv2
 from evaluate import evaluateVideo
-from motores import homing
+from motores import focus, setFrame
 
 name="/home/pi/Desktop/out.mp4"
 
-global show, focussing
+global show, focussing, currentFrame
 show = True
 focussing = True
 
@@ -12,17 +12,25 @@ def iniciar(id,pose):
     global userid, posename, focussing, show
     userid = id
     posename = pose
-    homing('x',128)
+    # print("INICIAR FOCUSSING")
+    resp = focus()
     focussing=False
-    return
+    return resp
     
 def videostart(cap):
     global show, focussing
+    # print('======= FOCUSING INICIO ========', focussing)
     cap.set(cv2.CAP_PROP_FPS,30)
     fourcc=cv2.VideoWriter_fourcc(*'mp4v')
     outmp4 = cv2.VideoWriter(name,fourcc, 30, (640,480))
     while (show):
+
+        # print('======= FOCUSING WHILE ========', focussing)
+        # print('======= SHOW ========', show)
+
+
         ret, frame = cap.read()
+        setFrame(frame)
         if ret:
             if focussing!=True:
                 outmp4.write(frame)
@@ -34,9 +42,11 @@ def videostart(cap):
                 bytearray(encodedImage) + b'\r\n')
         else:
             break
-
+    # print("======= CAP RELEASE =======")
     cap.release()
+    # print("======= CAP RELEASE FINALIZADO=======")
     outmp4.release()
+    # print("======= MP4 RELEASE FINALIZADO=======")
     cv2.destroyAllWindows()
 
 def terminar():
