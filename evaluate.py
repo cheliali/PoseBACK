@@ -1,4 +1,3 @@
-from time import time
 import cv2
 import mediapipe as mp
 import numpy as np
@@ -9,8 +8,6 @@ from storage import createHistory
 
 mp_drawing = mp.solutions.drawing_utils 
 mp_pose = mp.solutions.pose 
-
-
 
 with open('body_poses_model.json', 'rb') as f:
     model = json.load(f)
@@ -67,20 +64,36 @@ def evaluatePose(frame, posename):
         distanciaref=currentDistances["distancehipknee"]  
 
         for angleName in model["poses"][posename].keys():
-            observacion=''
+            # observacion=''
             if(str(angleName).find("distance") != -1):
                 finalval=currentDistances[angleName]
                 finalval=(finalval*1)/distanciaref
                 finalval=(model["poses"][posename][angleName] - finalval)**2
                 finalval=math.sqrt(finalval)
+                # if currentDistances['distancefeet']<model["poses"][posename]['distancefeet']:
+                #     observacion='Mayor distancia entre pies'
+                # elif currentDistances['distancefeet']>model["poses"][posename]['distancefeet']:
+                #     observacion='Menor distancia entre pies'
                 
             else:
                 powerval=int(model["poses"][posename][angleName] - currentAngles[angleName])**2
                 finalval=math.sqrt(powerval)
+                # if currentAngles['leftcodo']<model["poses"][posename]['leftcodo']:
+                #         observacion='Estirar codo'
+                # elif currentAngles['leftcodo']>model["poses"][posename]['leftcodo']:
+                #     observacion='Cerrar codo'
 
+                
             calificacionModelSelector = "calificacionDistancias" if str(angleName).find("distance") != -1  else "calificacionAngulos"
             for calificacion in model[calificacionModelSelector].keys():
                 if (model[calificacionModelSelector][calificacion][0] <= finalval < model[calificacionModelSelector][calificacion][1]):
+                    # print(angleName, finalval)
+                    observacion = ''
+                    if(calificacionModelSelector == 'calificacionDistancias'):
+                        observacion = "Aumentar distancia" if currentDistances[angleName] < model["poses"][posename][angleName] else "Disminuir distancia"
+                    else:
+                        observacion = "Aumentar ángulo" if currentAngles[angleName] < model["poses"][posename][angleName]  else "Disminuir ángulo"
+                    
                     calificacionesIndividuales.append({"name":angleName, "grade":calificacion, "improve":observacion})
                     sumatoria=sumatoria+int(calificacion)
   

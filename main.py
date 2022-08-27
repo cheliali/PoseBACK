@@ -8,6 +8,7 @@ import certifi
 import pyrebase
 import os
 import cv2
+from bson import json_util
 
 from blazepose import evaluate, iniciar, videostart, terminar
 from dbcontroller import getposes
@@ -108,6 +109,25 @@ def terminarf():
 def evaluation():
     finalGrade = evaluate()
     return jsonify(finalGrade)
+
+@app.route("/getHistory", methods=['GET'])
+@cross_origin()
+def getHistory():
+    history=[]
+    users = db.users
+    arguments=request.args
+    userid=arguments.get('userid')
+
+    user=users.find_one({'username': userid})
+
+    if user:
+        history=user['history']
+
+    # return jsonify(history)
+    return Response(
+        json_util.dumps(history),
+        mimetype='application/json'
+    )
 
 if __name__ == "__main__":
     app.run(debug=False)
